@@ -17,8 +17,6 @@ import java.util.logging.Logger;
 @Service
 public class ApiServiceImpl implements ApiService {
 
-    Logger logger = Logger.getLogger(ApiServiceImpl.class.getName());
-
     final String KEY = "price:origin,destination,product";
 
     @Autowired
@@ -29,12 +27,13 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public void add(Price price) {
         priceRepo.save(price);
+
         //redisRepo.saveRedis(p1);
         saveDataPrice(price);
     }
 
     @Override
-    public Map<Long, Price> getAll() {
+    public Map<Long, Price> getDataWithRedisTemplate() {
 
         return redisRepo.getAll();
     }
@@ -43,7 +42,7 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public List<PriceDto> getDataRedis() {
         Jedis jedis = new Jedis();
-        List<String> listStringPrice =  jedis.lrange(KEY , 0L , -1L);
+        List<String> listStringPrice =  jedis.lrange(KEY , 0L , (long) -1);
         return toListPrice(listStringPrice);
     }
 
@@ -62,7 +61,7 @@ public class ApiServiceImpl implements ApiService {
         Jedis jedis = new Jedis();
         jedis.lpush("price:origin,destination,product", "11:bekasi,jakarta,keyboard");
         jedis.lpush("price:origin,destination,product", "12:bekasi,test,kalong");
-        return jedis.lrange("price:origin,destination,product" , Long.valueOf(0), Long.valueOf(-1));
+        return jedis.lrange("price:origin,destination,product" , 0L, (long) -1);
     }
 
     private List<PriceDto> toListPrice(List<String> listStringPrice) {

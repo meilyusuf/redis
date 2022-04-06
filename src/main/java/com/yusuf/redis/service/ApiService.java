@@ -9,7 +9,7 @@ import java.util.Map;
 public interface ApiService {
 
     public void add(Price price);
-    public Map<Long, Price> getAll();
+    public Map<Long, Price> getDataWithRedisTemplate();
     public List<String> testRedis();
     public List<PriceDto> getDataRedis();
 }

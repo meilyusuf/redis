@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 @RestController
+@RequestMapping("/api")
 public class ApiController {
 
     @Autowired
@@ -29,8 +30,8 @@ public class ApiController {
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Map<Long, Price> getRedis(Price price) {
-        return apiService.getAll();
+    public Map<Long, Price> getDataWithRedisTemplate(Price price) {
+        return apiService.getDataWithRedisTemplate();
     }
 
     @RequestMapping(value = "/get_data_redis", method = RequestMethod.GET)

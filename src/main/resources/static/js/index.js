@@ -18,7 +18,7 @@ function submitForm() {
         enctype: 'application/json',
         processData: false,
         contentType:false,
-        url: '/add',
+        url: '/api/add',
         data: data,
         success: function (response) {
             success("data Saved", formItem);
